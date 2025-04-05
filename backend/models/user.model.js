@@ -22,7 +22,12 @@ const userSchema = mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-    }
+    },
+    role: {
+      type: String,
+      enum: ["reader", "admin"],
+      default: "admin",
+    },
   },
   { timestamps: true }
 );
