@@ -24,3 +24,6 @@ const blogSchema = new mongoose.Schema({
         trim: true,
     }
 }, {timestamps: true})
+
+const Blog = mongoose.model('blog', blogSchema)
+export default Blog
