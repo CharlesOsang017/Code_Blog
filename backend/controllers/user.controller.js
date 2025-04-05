@@ -20,7 +20,22 @@ export const registerUser = async (req, res) => {
     // creating a new user
     // hashing the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await new User({ email, username, password: hashedPassword });
+    // Random display images
+    const PROFILE_PICS = [
+      "https://avatars.githubusercontent.com/u/76118931?v=4",
+      "https://avatars.githubusercontent.com/u/77917845?v=4",
+      "https://avatars.githubusercontent.com/u/75869731?v=4",
+      "https://avatars.githubusercontent.com/u/24823972?v=4",
+    ];
+    const randomIndex = Math.floor(Math.random() * PROFILE_PICS.length);
+    const profileImg = PROFILE_PICS[randomIndex]; // ✅ This stores the correct path
+
+    const user = await new User({
+      email,
+      username,
+      password: hashedPassword,
+      profileImg,
+    });
     await user.save();
     return res.status(201).json({ message: "user created succeeffully!" });
   } catch (error) {
@@ -56,12 +71,12 @@ export const loginUser = async (req, res) => {
 };
 
 // Logout user
-export const logOutUser = async(req, res)=>{
+export const logOutUser = async (req, res) => {
   try {
     // sign out user
-    res.cookie('token', " ", {maxAge: 0})
-    return res.status(200).json({message: 'logged out successfully!'})
+    res.cookie("token", " ", { maxAge: 0 });
+    return res.status(200).json({ message: "logged out successfully!" });
   } catch (error) {
-    return res.status(500).json({message: error.message})
+    return res.status(500).json({ message: error.message });
   }
-}
+};
