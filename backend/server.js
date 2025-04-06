@@ -1,8 +1,9 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import express from 'express';
+import cookieParser from "cookie-parser";
 import { connectDb } from './lib/db.js';
 import userRoutes from './routes/user.route.js'
-import blogRoutes from './routes/blog.routes.js'
+import blogRoutes from './routes/blog.route.js'
 import {v2 as cloudinary} from 'cloudinary';
 
 dotenv.config()
@@ -20,6 +21,7 @@ cloudinary.config({
 
 // Middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/users', userRoutes)

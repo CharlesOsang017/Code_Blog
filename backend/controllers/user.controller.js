@@ -60,7 +60,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     // set token
-    await generateTokenAndSetCookie(user._id, res);
+    generateTokenAndSetCookie(user._id, res);
     // Optional: exclude password before sending response
     const { password: _, ...userData } = user.toObject();
 

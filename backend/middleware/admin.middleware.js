@@ -1,7 +1,7 @@
 export const admin = async (req, res, next) => {
   try {
-    if (req.user && req.user.role === admin) {
-      next();
+    if (req.user && req.user.role === "admin") {
+      return next();
     } else {
       return res
         .status(403)
