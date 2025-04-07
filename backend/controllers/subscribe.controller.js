@@ -31,3 +31,18 @@ export const allSubscriptions = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteSubscription = async (req, res) => {
+  try {
+    const subscribedEmail = await Subscription.findById(req.params.id);
+    if (!subscribedEmail) {
+      return res.status(404).json({ message: "No such email found" });
+    }
+    await Subscription.findByIdAndDelete(req.params.id);
+    return res
+      .status(200)
+      .json({ message: "The email was successfully deleted" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
