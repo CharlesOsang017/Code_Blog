@@ -53,3 +53,12 @@ export const deleteBlog = async(req, res)=>{
     return res.status(500).json({message: error.message})
   }
 }
+
+export const allBlogs = async(req, res)=>{
+  try {
+    const allBlogs = await Blog.find().populate({path: "author", select: "-password"})
+    return res.status(200).json(allBlogs)
+  } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+}
