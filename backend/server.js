@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { connectDb } from './lib/db.js';
 import userRoutes from './routes/user.route.js'
 import blogRoutes from './routes/blog.route.js'
+import subscriptionRoutes from './routes/subscription.route.js'
 import {v2 as cloudinary} from 'cloudinary';
 
 dotenv.config()
@@ -26,6 +27,7 @@ app.use(cookieParser());
 // Routes
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/blogs', blogRoutes)
+app.use("/api/v1/subscriptions", subscriptionRoutes)
 // Connect to DB and listening to a port
 app.listen(port,  () => {
     console.log(`Server is running on port ${port}`);
