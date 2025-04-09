@@ -1,8 +1,11 @@
-import React from 'react'
+import { Button } from '../ui/button'
 
 const AddBlog = () => {
   return (
-    <div>AddBlog</div>
+    <div>    
+      <h3>  AddBlog</h3>
+      <Button>Shad Ui button</Button>
+    </div>
   )
 }
 
