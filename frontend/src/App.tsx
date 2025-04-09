@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AdminLayout from "./components/adminLayout";
-import AdminDashboard from "./components/AdminDashboard";
-import UserDashboard from "./components/UserDashboard";
-import UserLayout from "./components/userLayout";
-import AddBlog from "./components/AddBlog";
-import BlogList from "./components/BlogList";
-import Subscriptions from "./components/Subscriptions"; // make sure "S" is capital if the file name is
+import AdminLayout from "./components/admin/adminLayout";
+import UserLayout from "./components/user/userLayout";
+import AddBlog from "./components/admin/AddBlog";
+import BlogList from "./components/admin/BlogList";
+import Subscriptions from "./components/admin/subscriptions";
+import UserDashboard from "./components/user/UserDashboard";
+
 
 function App() {
   return (
@@ -17,8 +17,7 @@ function App() {
         </Route>
 
         {/* Admin Layout */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
+        <Route path="/admin" element={<AdminLayout />}>         
           <Route path="add-blog" element={<AddBlog />} />
           <Route path="blog-list" element={<BlogList />} />
           <Route path="subscriptions" element={<Subscriptions />} />

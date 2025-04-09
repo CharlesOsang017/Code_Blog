@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom"
+import AdminDashboard from "./AdminDashboard"
 
 type Props = {}
 
 function AdminLayout({}: Props) {
   return (
     <div>
-      <h1>Admin Panel</h1>
-      Navbar
+      <AdminDashboard />
       <Outlet />
     </div>
   )
