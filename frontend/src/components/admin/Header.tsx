@@ -1,4 +1,5 @@
 import { LogOut } from "lucide-react"
+import { ModeToggle } from "../mode-toggle"
 
 const Header = () => {
   type userType = {
@@ -17,9 +18,11 @@ const Header = () => {
         {user ? (
           <div className="flex items-center gap-4">
              <h1>Hi, Admin</h1>
-          <img className="rounded-full w-10 bg-contain h-10" src={user?.profile} alt={user.name} />         
+          <img className="rounded-full w-10 bg-contain h-10" src={user?.profile} alt={user.name} />   
+          <ModeToggle />      
           <LogOut className="cursor-pointer"/>
         </div>) : (<>Login</>)}
+       
       </div>
 
     </div>
