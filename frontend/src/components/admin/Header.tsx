@@ -1,5 +1,6 @@
 import { LogOut } from "lucide-react"
 import { ModeToggle } from "../mode-toggle"
+import { Link } from "react-router-dom"
 
 const Header = () => {
   type userType = {
@@ -20,7 +21,7 @@ const Header = () => {
              <h1>Hi, Admin</h1>
           <img className="rounded-full w-10 bg-contain h-10" src={user?.profile} alt={user.name} />   
           <ModeToggle />      
-          <LogOut className="cursor-pointer"/>
+          <Link to="/login"><LogOut className="cursor-pointer"/></Link>
         </div>) : (<>Login</>)}
        
       </div>

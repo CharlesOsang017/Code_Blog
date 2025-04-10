@@ -18,13 +18,13 @@ function App() {
         </Route>
 
         {/* Admin Layout */}
-        <Route path='/admin/' element={<AdminLayout />}>
-          <Route path='login' element={<Login />} />
-          <Route path='register' element={<Register />} />
+        <Route path='/admin' element={<AdminLayout />}>
           <Route path='add-blog' element={<AddBlog />} />
           <Route path='blog-list' element={<BlogList />} />
           <Route path='subscriptions' element={<Subscriptions />} />
         </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </Router>
   );
