@@ -57,10 +57,9 @@ const Register = () => {
             {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </div>
         </div>
-
         <Button className='w-full'>Register</Button>
-        <small>
-          Already have an account? <Link to='/login'>Login</Link>
+        <small className="text-sm mt-20">
+          Already have an account? <Link className="hover:underline text-blue-800" to='/login'>Login</Link>
         </small>
       </form>
     </div>

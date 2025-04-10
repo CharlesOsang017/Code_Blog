@@ -46,8 +46,8 @@ const Login = () => {
         </div>
 
         <Button className='w-full'>Log In</Button>
-        <small>
-          Don't have an account? <Link to='/register'>Register</Link>
+        <small className="text-sm">
+          Don't have an account? <Link className="hover:underline text-blue-800" to='/register'>Register</Link>
         </small>
       </form>
     </div>
