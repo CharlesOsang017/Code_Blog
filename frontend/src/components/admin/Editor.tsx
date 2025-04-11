@@ -12,7 +12,7 @@ const MyEditor = () => {
   };
 
   return (
-    <div>
+    <div className='w-[800px] mt-3'>
       <Editor
         apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
         onInit={(_evt: any, editor: any) => {
@@ -49,7 +49,7 @@ const MyEditor = () => {
             'removeformat | help',
         }}
       />
-      <button onClick={log}>Log editor content</button>
+      {/* <button onClick={log}>Log editor content</button> */}
     </div>
   );
 };
