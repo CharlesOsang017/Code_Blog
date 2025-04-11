@@ -1,7 +1,10 @@
+import Footer from "./Footer"
 
 const UserDashboard = () => {
   return (
-    <div>Welcome to the User Dashboard!</div>
+    <div>
+        <Footer />
+    </div>
   )
 }
 
