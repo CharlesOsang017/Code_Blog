@@ -7,7 +7,7 @@ const Sidebar = () => {
   const [active, setActive] = useState("Add Blogs");
 
   const links = [
-    { name: "Add Blogs", href: "add-blog", icon: <CirclePlus /> },
+    { name: "Add Blogs", href: "", icon: <CirclePlus /> },
     { name: "Blog Lists", href: "blog-list", icon: <NotebookText /> },
     { name: "Subscriptions", href: "subscriptions", icon: <Mail /> },
   ];

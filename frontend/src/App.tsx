@@ -19,7 +19,7 @@ function App() {
 
         {/* Admin Layout */}
         <Route path='/admin' element={<AdminLayout />}>
-          <Route path='add-blog' element={<AddBlog />} />
+          <Route index element={<AddBlog />} />
           <Route path='blog-list' element={<BlogList />} />
           <Route path='subscriptions' element={<Subscriptions />} />
         </Route>
