@@ -7,6 +7,7 @@ import Subscriptions from "./components/admin/subscriptions";
 import UserDashboard from "./components/user/UserDashboard";
 import Login from "./components/admin/Login";
 import Register from "./components/admin/Register";
+import BlogDetails from "./components/user/BlogDetails";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         {/* User Routes */}
         <Route path='/' element={<UserLayout />}>
           <Route index element={<UserDashboard />} />
+          <Route path='blog-details/:id' element={<BlogDetails />}/>
         </Route>
 
         {/* Admin Layout */}

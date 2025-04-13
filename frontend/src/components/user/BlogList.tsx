@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import React, { useState } from "react";
+import  { useState } from "react";
+import { Link } from "react-router-dom";
 
 const BlogList = () => {
   const blogs = [
@@ -85,7 +86,7 @@ const BlogList = () => {
           filteredBlogs.map((blog) => (
             <div
               key={blog.id}
-              className='border-gray-400 max-w-[400px] border rounded shadow-sm'
+              className='hover:border-gray-900 border-gray-300 hover:shadow-md max-w-[400px] border rounded shadow-sm'
             >
               <img
                 src={blog.thumbnail}
@@ -103,10 +104,10 @@ const BlogList = () => {
                 <p className='line-clamp-3 text-md tracking-tighter text-gray-700 mb-4 flex-grow'>
                   {blog.description}
                 </p>
-                <div className='flex gap-1 cursor-pointer items-center font-medium mb-4'>
+                <Link to={`blog-details/${blog.id}`} className='flex gap-1 cursor-pointer items-center font-medium mb-4'>
                   <h2 className='text-lg tracking-tighter'>Read more</h2>
                   <ArrowRight size={18} />
-                </div>
+                </Link>
               </div>
             </div>
           ))
