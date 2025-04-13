@@ -44,7 +44,7 @@ const MyEditor = () => {
           ],
           toolbar:
             'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
+            'bold italic preview code code lists link | forecolor | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
         }}

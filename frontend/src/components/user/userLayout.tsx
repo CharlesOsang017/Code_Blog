@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 
 type Props = {};
 
@@ -8,6 +9,7 @@ function UserLayout({}: Props) {
     <div>
       <Header />
       <Outlet />
+      <Footer />
     </div>
   );
 }
