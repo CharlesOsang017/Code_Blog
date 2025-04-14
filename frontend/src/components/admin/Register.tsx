@@ -6,6 +6,12 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
 import Loading from "../Loading";
+import type { AxiosError } from "axios";
+
+
+type ErrorResponse = {
+  message: string;
+};
 
 const Register = () => {
   type formDataType = {
@@ -18,7 +24,7 @@ const Register = () => {
     username: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
@@ -26,11 +32,11 @@ const Register = () => {
       const response = await axios.post("/api/users/register", formData);
       return response?.data;
     },
-    onSuccess: () => {
-      toast.success("User created successfully!");
+    onSuccess: (data) => {
+      toast.success(data?.message);
       navigate("/login");
     },
-    onError: (error) => {
+    onError: (error: AxiosError<ErrorResponse>) => {
       toast.error(error.response?.data?.message || "Something went wrong");
     },
   });
