@@ -25,9 +25,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-app.use('/api/v1/users', userRoutes)
-app.use('/api/v1/blogs', blogRoutes)
-app.use("/api/v1/subscriptions", subscriptionRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/blogs', blogRoutes)
+app.use("/api/subscriptions", subscriptionRoutes)
 // Connect to DB and listening to a port
 app.listen(port,  () => {
     console.log(`Server is running on port ${port}`);
