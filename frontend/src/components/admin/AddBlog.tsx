@@ -4,7 +4,7 @@ import MyEditor from "./Editor";
 import Category from "./Category";
 import { useState, useRef } from "react";
 
-type formDataType = {
+export type formDataType = {
   thumbnail: string;
   title: string;
   description: string;
@@ -16,7 +16,7 @@ const AddBlog = () => {
     thumbnail: "",
     title: "",
     description: "",
-    category: "",
+    category: "startup",
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -42,8 +42,14 @@ const AddBlog = () => {
     }
   };
 
+  const handleSubmit = async(e: React.FormEvent)=>{
+    e.preventDefault()
+    // handleImageUpload()
+    console.log(formData)
+  }
+
   return (
-    <div className='ml-6 gap-y-10'>
+    <form onSubmit={handleSubmit} className='ml-6 gap-y-10'>
       <div className='gap-8'>
         <h2 className='font-medium'>Upload Thumbnail</h2>
 
@@ -93,12 +99,12 @@ const AddBlog = () => {
 
       <div>
         <h2 className='font-medium'>Blog Description</h2>
-        <MyEditor />
+        <MyEditor formData={formData} setFormData={setFormData}/>
       </div>
 
-      <Category />
+      <Category  formData={formData} setFormData={setFormData}/>
       <Button className='cursor-pointer mt-4'>Add Blog</Button>
-    </div>
+    </form>
   );
 };
 

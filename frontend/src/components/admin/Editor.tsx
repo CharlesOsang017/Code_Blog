@@ -1,55 +1,57 @@
-import { Editor} from '@tinymce/tinymce-react';
-import { useRef } from 'react';
-import type { Editor as TinyMCEEditorType } from 'tinymce';
+import { Editor } from "@tinymce/tinymce-react";
+import { useRef } from "react";
+import type { Editor as TinyMCEEditorType } from "tinymce";
 
-const MyEditor = () => {
+type Props = {
+  formData: { description: string; [key: string]: any };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{ description: string; [key: string]: any }>
+  >;
+};
+
+const MyEditor = ({ formData, setFormData }: Props) => {
   const editorRef = useRef<TinyMCEEditorType | null>(null);
-
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   return (
     <div className='w-[800px] mt-3'>
       <Editor
         apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
-        onInit={(_evt: any, editor: any) => {
+        onInit={(_evt, editor) => {
           editorRef.current = editor;
         }}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        value={formData.description} // bind to description not content
+        onEditorChange={(newContent) =>
+          setFormData((prev) => ({ ...prev, description: newContent }))
+        }
         init={{
           height: 500,
           menubar: false,
           plugins: [
-            'advlist',
-            'autolink',
-            'lists',
-            'link',
-            'image',
-            'charmap',
-            'preview',
-            'anchor',
-            'searchreplace',
-            'visualblocks',
-            'code',
-            'fullscreen',
-            'insertdatetime',
-            'media',
-            'table',
-            'code',
-            'help',
-            'wordcount',
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "preview",
+            "anchor",
+            "searchreplace",
+            "visualblocks",
+            "code",
+            "fullscreen",
+            "insertdatetime",
+            "media",
+            "table",
+            "help",
+            "wordcount",
           ],
           toolbar:
-            'undo redo | blocks | ' +
-            'bold italic preview code code lists link | forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
+            "undo redo | blocks | " +
+            "bold italic preview code lists link | forecolor | alignleft aligncenter " +
+            "alignright alignjustify | bullist numlist outdent indent | " +
+            "removeformat | help",
         }}
       />
-      {/* <button onClick={log}>Log editor content</button> */}
     </div>
   );
 };
