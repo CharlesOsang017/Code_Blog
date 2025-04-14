@@ -1,7 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { X } from "lucide-react";
-import React from "react";
+
+type Subscription = {
+  _id: string;
+  email: string;
+  createdAt: string;
+};
 
 const Subscriptions = () => {
+  const { data: subscriptions, isLoading } = useQuery<Subscription[]>({
+    queryKey: ["subscriptions"],
+    queryFn: async () => {
+      const response = await axios.get("/api/subscriptions/all");
+      return response?.data;
+    },
+  });
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4'>All Subscriptions</h1>
@@ -18,10 +32,12 @@ const Subscriptions = () => {
           </thead>
           <tbody>
             {/* Example rows for testing scroll */}
-            {Array.from({ length: 20 }).map((_, i) => (
-              <tr key={i} className='odd:bg-white even:bg-gray-50'>
-                <td className='px-4 py-2 border-b'>user{i}@email.com</td>
-                <td className='px-4 py-2 border-b'>2025-04-09</td>
+            {subscriptions?.map((sub) => (
+              <tr key={sub?._id} className='odd:bg-white even:bg-gray-50'>
+                <td className='px-4 py-2 border-b'>{sub?.email}</td>
+                <td className='px-4 py-2 border-b'>
+                  {new Date(sub.createdAt).toLocaleDateString()}
+                </td>
                 <td className='px-4 py-2 border-b'>
                   <button className='cursor-pointer'>
                     <X />
