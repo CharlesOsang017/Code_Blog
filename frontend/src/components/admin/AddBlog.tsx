@@ -3,12 +3,21 @@ import { Button } from "../ui/button";
 import MyEditor from "./Editor";
 import Category from "./Category";
 import { useState, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
+import Loading from "../Loading";
+import type { AxiosError } from "axios";
 
 export type formDataType = {
   thumbnail: string;
   title: string;
   description: string;
   category: string;
+};
+
+type ErrorResponse = {
+  message: string;
 };
 
 const AddBlog = () => {
@@ -42,11 +51,30 @@ const AddBlog = () => {
     }
   };
 
-  const handleSubmit = async(e: React.FormEvent)=>{
-    e.preventDefault()
-    // handleImageUpload()
-    console.log(formData)
-  }
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (formData: formDataType) => {
+      const response = await axios.post("/api/blogs/create", formData);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      setFormData({
+        thumbnail: "",
+        title: "",
+        description: "",
+        category: "startup",
+      });
+      removeImage()
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data?.message);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate(formData);
+  };
 
   return (
     <form onSubmit={handleSubmit} className='ml-6 gap-y-10'>
@@ -99,11 +127,13 @@ const AddBlog = () => {
 
       <div>
         <h2 className='font-medium'>Blog Description</h2>
-        <MyEditor formData={formData} setFormData={setFormData}/>
+        <MyEditor formData={formData} setFormData={setFormData} />
       </div>
 
-      <Category  formData={formData} setFormData={setFormData}/>
-      <Button className='cursor-pointer mt-4'>Add Blog</Button>
+      <Category formData={formData} setFormData={setFormData} />
+      <Button className='cursor-pointer mt-4'>
+        {isPending ? <Loading /> : "Add Blog"}
+      </Button>
     </form>
   );
 };

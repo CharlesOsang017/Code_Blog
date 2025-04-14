@@ -1,11 +1,12 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { useRef } from "react";
 import type { Editor as TinyMCEEditorType } from "tinymce";
+import { formDataType } from "./AddBlog";
 
 type Props = {
-  formData: { description: string; [key: string]: any };
+  formData: formDataType;
   setFormData: React.Dispatch<
-    React.SetStateAction<{ description: string; [key: string]: any }>
+    React.SetStateAction<formDataType>
   >;
 };
 
