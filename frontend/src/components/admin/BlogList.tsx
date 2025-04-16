@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import axios from "axios";
+import { toast } from "sonner";
 
 type Blog = {
   _id: string;
@@ -29,6 +30,22 @@ const BlogList = () => {
     queryFn: async () => {
       const response = await axios.get("/api/blogs/all");
       return response.data;
+    },
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await axios.delete(`/api/blogs/delete/${id}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
     },
   });
 
@@ -61,7 +78,7 @@ const BlogList = () => {
             </thead>
             <tbody>
               {blogs?.map((blog: Blog) => (
-                <tr key={blog._id} className='odd:bg-white even:bg-gray-50'>
+                <tr key={blog?._id} className='odd:bg-white even:bg-gray-50'>
                   <td className='px-4 py-2 border-b flex items-center gap-2'>
                     <img
                       src={blog?.author?.profileImg || "/default-profile.png"}
@@ -76,6 +93,7 @@ const BlogList = () => {
                   </td>
                   <td className='px-4 py-2 border-b'>
                     <button
+                      onClick={() => mutate(blog?._id)}
                       className='cursor-pointer text-red-600 hover:text-red-800 transition'
                       aria-label='Delete blog'
                     >
