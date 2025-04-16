@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 
 
 const BlogList = () => {
+  
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4'>All Blogs</h1>

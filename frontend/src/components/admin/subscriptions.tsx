@@ -10,39 +10,65 @@ type Subscription = {
   createdAt: string;
 };
 
+type ErrorResponse = {
+  message: string;
+};
+
 const Subscriptions = () => {
-  const { data: subscriptions } = useQuery<Subscription[]>({
+  const queryClient = useQueryClient();
+
+  const {
+    data: subscriptions,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<Subscription[]>({
     queryKey: ["subscriptions"],
     queryFn: async () => {
       const response = await axios.get("/api/subscriptions/all");
       return response?.data;
     },
   });
-  // const { id } = useParams();
-  // console.log("ID", id);
-  type ErrorResponse = {
-    message: string;
-  };
-  const queryClient = useQueryClient();
 
   const { mutate: deleteSub } = useMutation({
     mutationFn: async (id: string) => {
       const response = await axios.delete(`/api/subscriptions/${id}`);
-      return response?.data;
+      return response.data;
     },
     onSuccess: (data) => {
-      toast.success(data?.message);
+      toast.success(data?.message || "Subscription deleted successfully!");
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      toast.error(error.response?.data?.message);
+      toast.error(
+        error.response?.data?.message || "Failed to delete subscription."
+      );
     },
   });
+
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4'>All Subscriptions</h1>
+
       <div className='h-100 overflow-y-auto border border-gray-300 rounded-lg'>
-        {subscriptions && subscriptions.length > 0 ? (
+        {isLoading && (
+          <div className='flex justify-center py-8'>
+            <p className='font-medium'>Loading subscriptions...</p>
+          </div>
+        )}
+
+        {isError && (
+          <div className='flex justify-center py-8'>
+            <p className='font-medium text-red-600'>
+              {(error as AxiosError<ErrorResponse>)?.message}
+            </p>
+          </div>
+        )}
+
+        {!isLoading &&
+        !isError &&
+        subscriptions &&
+        subscriptions.length > 0 ? (
           <table className='min-w-full'>
             <thead className='bg-gray-100 text-gray-800 sticky top-0 z-10'>
               <tr>
@@ -54,18 +80,21 @@ const Subscriptions = () => {
               </tr>
             </thead>
             <tbody>
-              {subscriptions?.map((sub) => (
+              {subscriptions.map((sub) => (
                 <tr key={sub?._id} className='odd:bg-white even:bg-gray-50'>
                   <td className='px-4 py-2 border-b'>{sub?.email}</td>
                   <td className='px-4 py-2 border-b'>
-                    {new Date(sub.createdAt).toLocaleDateString()}
+                    {new Date(sub?.createdAt).toLocaleDateString()}
                   </td>
                   <td className='px-4 py-2 border-b'>
                     <button
-                      className='cursor-pointer'
-                      onClick={() => deleteSub(sub?._id)}
+                      className='cursor-pointer text-red-600 hover:text-red-800 transition'
+                      onClick={() => {
+                        deleteSub(sub?._id);
+                      }}
+                      aria-label='Delete subscription'
                     >
-                      <X />
+                      <X size={20}/>
                     </button>
                   </td>
                 </tr>
@@ -73,9 +102,12 @@ const Subscriptions = () => {
             </tbody>
           </table>
         ) : (
-          <div className='flex justify-center mt-50'>
-            <p className='font-medium'>Subscription List is empty</p>
-          </div>
+          !isLoading &&
+          !isError && (
+            <div className='flex justify-center mt-12'>
+              <p className='font-medium'>Subscription List is empty</p>
+            </div>
+          )
         )}
       </div>
     </div>
