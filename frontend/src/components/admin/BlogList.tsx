@@ -29,7 +29,9 @@ const BlogList = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       const response = await axios.get("/api/blogs/all");
+      // console.log(response?.data)
       return response.data;
+      // console.log(response?.data)
     },
   });
 
