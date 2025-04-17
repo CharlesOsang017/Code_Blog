@@ -28,10 +28,8 @@ const BlogList = () => {
   } = useQuery<Blog[]>({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const response = await axios.get("/api/blogs/all");
-      // console.log(response?.data)
-      return response.data;
-      // console.log(response?.data)
+      const response = await axios.get("/api/blogs/all");     
+      return response.data;     
     },
   });
 
