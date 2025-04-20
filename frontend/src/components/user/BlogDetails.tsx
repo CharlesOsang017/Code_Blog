@@ -14,7 +14,6 @@ type BlogDetails = {
 
 const BlogDetails = () => {
   const { id } = useParams<{ id: string }>();
-
   const {
     data: blogDetails,
     isPending,
@@ -34,10 +33,70 @@ const BlogDetails = () => {
   if (isError || !blogDetails)
     return <p className='text-center py-8 text-red-500'>{error.message}</p>;
 
-  const sanitizedContent = DOMPurify.sanitize(blogDetails.description, {
-    ADD_ATTR: ["target"],
-    ADD_TAGS: ["iframe"],
-  });
+const sanitizedContent = DOMPurify.sanitize(blogDetails.description, {
+  ADD_ATTR: [
+    "target",
+    "src",
+    "allow",
+    "allowfullscreen",
+    "frameborder",
+    "loading",
+    "alt",
+    "title",
+    "width",
+    "height",
+    "class",
+    "style",
+    "href",
+    "rel",
+    "id",
+    "name",
+    "type",
+    "value",
+    "aria-label",
+    "tabindex"
+  ],
+  ADD_TAGS: [
+    "iframe",
+    "img",
+    "video",
+    "source",
+    "picture",
+    "figure",
+    "figcaption",
+    "section",
+    "article",
+    "header",
+    "footer",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "span",
+    "div",
+    "p",
+    "a",
+    "strong",
+    "em",
+    "ul",
+    "ol",
+    "li",
+    "br",
+    "hr",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
+    "blockquote",
+    "code",
+    "pre"
+  ]
+});
+
 
   return (
     <article className='p-4 max-w-3xl mx-auto'>
