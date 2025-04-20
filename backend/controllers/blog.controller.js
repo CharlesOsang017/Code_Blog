@@ -64,7 +64,7 @@ export const allBlogs = async(req, res)=>{
 }
 
 export const getBlogDetails = async(req, res)=>{
-  const {id} = req.params()  
+  const {id} = req.params;  
   try {
     const blogDetail = await Blog.findById(id)
     if(!blogDetail){
