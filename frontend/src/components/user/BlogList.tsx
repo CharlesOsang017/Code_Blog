@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 // Define the Blog type
 interface Blog {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   category: string;
@@ -58,7 +58,7 @@ const BlogList = () => {
         {filteredBlogs.length > 0 ? (
           filteredBlogs.map((blog) => (
             <div
-              key={blog.id}
+              key={blog?._id}
               className="hover:border-gray-900 border-gray-300 hover:shadow-md max-w-[400px] border rounded shadow-sm"
             >
               <img
@@ -78,7 +78,7 @@ const BlogList = () => {
                   {blog.description}
                 </p>
                 <Link
-                  to={`blog-details/${blog.id}`}
+                  to={`blog-details/${blog?._id}`}
                   className="flex gap-1 cursor-pointer items-center font-medium mb-4"
                 >
                   <h2 className="text-lg tracking-tighter">Read more</h2>

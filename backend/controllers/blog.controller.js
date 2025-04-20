@@ -62,3 +62,13 @@ export const allBlogs = async(req, res)=>{
     return res.status(500).json({message: error.message})
   }
 }
+
+export const getBlogDetails = async(req, res)=>{
+  const {id} = req.params()
+  
+  try {
+    
+  } catch (error) {
+    
+  }
+}
