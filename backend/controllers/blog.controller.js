@@ -32,46 +32,54 @@ export const createBlog = async (req, res) => {
   }
 };
 
-export const deleteBlog = async(req, res)=>{
+export const deleteBlog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id)
-    if(!blog){
-      return res.status(404).json({message: 'blog not found'})
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ message: "blog not found" });
     }
     // checking if the blog user is the logged in user
-    if(!blog.author.equals(req.user._id)){
-      return res.status(401).json({message: 'You are not authorized to delete this blog'})
+    if (!blog.author.equals(req.user._id)) {
+      return res
+        .status(401)
+        .json({ message: "You are not authorized to delete this blog" });
     }
     // Delete the image from cloudinary
-    if(blog.thumbnail){
+    if (blog.thumbnail) {
       const imgId = blog.thumbnail.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(imgId);
     }
-    await Blog.findByIdAndDelete(req.params.id)
-    return res.status(200).json({message: 'Blog post deleted successfully!'})
+    await Blog.findByIdAndDelete(req.params.id);
+    return res.status(200).json({ message: "Blog post deleted successfully!" });
   } catch (error) {
-    return res.status(500).json({message: error.message})
+    return res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const allBlogs = async(req, res)=>{
+export const allBlogs = async (req, res) => {
   try {
-    const allBlogs = await Blog.find().populate({path: "author", select: "-password"})
-    return res.status(200).json(allBlogs)
+    const allBlogs = await Blog.find().populate({
+      path: "author",
+      select: "-password",
+    });
+    return res.status(200).json(allBlogs);
   } catch (error) {
-    return res.status(500).json({message: error.message})
+    return res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const getBlogDetails = async(req, res)=>{
-  const {id} = req.params;  
+export const getBlogDetails = async (req, res) => {
+  const { id } = req.params;
   try {
-    const blogDetail = await Blog.findById(id)
-    if(!blogDetail){
-      return res.status(404).json({message: 'Blog not found'})
+    const blogDetail = await Blog.findById(id).populate({
+      path: "author",
+      select: "-password",
+    });
+    if (!blogDetail) {
+      return res.status(404).json({ message: "Blog not found" });
     }
-    return res.status(200).json(blogDetail)
+    return res.status(200).json(blogDetail);
   } catch (error) {
-    return res.status(500).json({message: error.message})
+    return res.status(500).json({ message: error.message });
   }
-}
+};

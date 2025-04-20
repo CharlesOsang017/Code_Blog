@@ -6,9 +6,8 @@ import { useParams } from "react-router-dom";
 type BlogDetails = {
   _id: string;
   title: string;
-  profileImg: string;
-  author: string;
-  date: string; // recommended: string if coming as ISO from MongoDB
+  author: { username: string; profileImg: string };
+  createdAt: string; 
   thumbnail: string;
   description: string;
 };
@@ -20,22 +19,20 @@ const BlogDetails = () => {
     data: blogDetails,
     isPending,
     isError,
-    error
+    error,
   } = useQuery<BlogDetails>({
     queryKey: ["blogDetails", id],
-    enabled: !!id, // prevents the query from running if `id` is undefined
+    enabled: !!id,
     queryFn: async () => {
       const response = await axios.get(`/api/blogs/blog-details/${id}`);
       return response.data;
     },
   });
-  console.log('blog Details', blogDetails)
+  console.log("blog Details", blogDetails);
 
   if (isPending) return <p className='text-center py-8'>Loading blog...</p>;
   if (isError || !blogDetails)
-    return (
-      <p className='text-center py-8 text-red-500'>{error.message}</p>
-    );
+    return <p className='text-center py-8 text-red-500'>{error.message}</p>;
 
   const sanitizedContent = DOMPurify.sanitize(blogDetails.description, {
     ADD_ATTR: ["target"],
@@ -49,7 +46,7 @@ const BlogDetails = () => {
 
         <div className='flex items-center gap-3 mb-4'>
           <img
-            src={blogDetails.profileImg}
+            src={blogDetails.author.profileImg}
             alt={`${blogDetails.author}'s profile`}
             className='w-10 h-10 rounded-full object-cover'
             width={40}
@@ -57,7 +54,7 @@ const BlogDetails = () => {
             loading='lazy'
           />
           <div>
-            <p className='font-semibold'>{blogDetails.author}</p>
+            <p className='font-semibold'>{blogDetails.author.username}</p>
             <p className='text-sm text-gray-500'>
               {new Date(blogDetails.createdAt).toLocaleDateString()}
             </p>
@@ -67,7 +64,7 @@ const BlogDetails = () => {
         <img
           src={blogDetails.thumbnail}
           alt={`Cover for ${blogDetails.title}`}
-          className='w-full h-auto rounded-xl mb-6 shadow-lg'
+          className='w-full h-auto rounded-xl mb-6 mt-4'
           loading='lazy'
         />
       </header>
