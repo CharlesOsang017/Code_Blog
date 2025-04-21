@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Loader from "./Loader";
 
 type BlogDetails = {
   _id: string;
@@ -29,7 +30,7 @@ const BlogDetails = () => {
   });
   console.log("blog Details", blogDetails);
 
-  if (isPending) return <p className='text-center py-8'>Loading blog...</p>;
+  if (isPending) return <Loader />
   if (isError || !blogDetails)
     return <p className='text-center py-8 text-red-500'>{error.message}</p>;
 
