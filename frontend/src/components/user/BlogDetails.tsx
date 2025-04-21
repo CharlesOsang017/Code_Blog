@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "./Loader";
+import { ArrowLeft } from "lucide-react";
 
 type BlogDetails = {
   _id: string;
@@ -43,13 +44,17 @@ const sanitizedContent = DOMPurify.sanitize(blogDetails.description, {
   return (
     <article className='p-4 max-w-3xl mx-auto'>
       <header className='mb-8'>
+        <Link to={'/'} className="flex items-center gap-x-1 cursor-pointer mb-4">
+          <ArrowLeft size={18}/>
+          <p>Go Back</p>
+        </Link>
         <h1 className='text-3xl font-bold mb-4'>{blogDetails.title}</h1>
 
         <div className='flex items-center gap-3 mb-4'>
           <img
             src={blogDetails.author.profileImg}
             alt={`${blogDetails.author}'s profile`}
-            className='w-10 h-10 rounded-full object-cover'
+            className='w-10 h-10 rounded-full bg-contain'
             width={40}
             height={40}
             loading='lazy'
