@@ -34,10 +34,6 @@ const BlogList = () => {
   if (isPending) {
     return <div className='p-6 text-center'>Loading blogs...</div>;
   }
-  const sanitizedContent = DOMPurify.sanitize(blogs.description, {
-    ADD_ATTR: ["target"],
-    ADD_TAGS: ["iframe"],
-  });
 
   return (
     <div className='p-6'>
@@ -62,39 +58,47 @@ const BlogList = () => {
       {/* Blog Display */}
       <div className='max-w-[1050px] mx-auto grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center'>
         {filteredBlogs.length > 0 ? (
-          filteredBlogs.map((blog) => (
-            <div
-              key={blog?._id}
-              className='hover:border-gray-900 border-gray-300 hover:shadow-md max-w-[400px] border rounded shadow-sm'
-            >
-              <img
-                src={blog.thumbnail}
-                alt={blog.title}
-                className='object-contain'
-              />
-              <div className='px-6'>
-                <p className='text-sm px-2 py-1 mt-4 bg-black text-white inline-block rounded-sm'>
-                  {blog.category}
-                </p>
+          filteredBlogs.map((blog) => {
+            const sanitizedContent = DOMPurify.sanitize(blog.description, {
+              ADD_ATTR: ["target"],
+              ADD_TAGS: ["iframe"],
+            });
 
-                <h3 className='text-md mb-4 font-medium tracking-tighter mt-4'>
-                  {blog.title}
-                </h3>
-                <div
-                  className='prose max-w-none line-clamp-3 text-md tracking-tighter text-gray-700 mb-4 flex-grow'
-                  dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+            return (
+              <div
+                key={blog._id}
+                className='hover:border-gray-900 border-gray-300 hover:shadow-md max-w-[400px] border rounded shadow-sm'
+              >
+                <img
+                  src={blog.thumbnail}
+                  alt={blog.title}
+                  className='object-contain'
                 />
+                <div className='px-6'>
+                  <p className='text-sm px-2 py-1 mt-4 bg-black text-white inline-block rounded-sm'>
+                    {blog.category}
+                  </p>
 
-                <Link
-                  to={`blog-details/${blog?._id}`}
-                  className='flex gap-1 cursor-pointer items-center font-medium mb-4'
-                >
-                  <h2 className='text-lg tracking-tighter'>Read more</h2>
-                  <ArrowRight size={18} />
-                </Link>
+                  <h3 className='text-md mb-4 font-medium tracking-tighter mt-4'>
+                    {blog.title}
+                  </h3>
+
+                  <div
+                    className='prose max-w-none line-clamp-3 text-md tracking-tighter text-gray-700 mb-4 flex-grow'
+                    dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                  />
+
+                  <Link
+                    to={`blog-details/${blog._id}`}
+                    className='flex gap-1 cursor-pointer items-center font-medium mb-4'
+                  >
+                    <h2 className='text-lg tracking-tighter'>Read more</h2>
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <p>No blogs found for this category.</p>
         )}
