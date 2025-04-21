@@ -6,9 +6,11 @@ type Props = {};
 
 function UserLayout({}: Props) {
   return (
-    <div>
+    <div className='flex flex-col min-h-screen -mb-40'>
       <Header />
-      <Outlet />
+      <main className='flex-grow'>
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

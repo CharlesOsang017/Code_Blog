@@ -4,8 +4,10 @@ type Props = {}
 
 function AdminLayout({}: Props) {
   return (
-    <div>
-      <AdminDashboard />  
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+      <AdminDashboard /> 
+        </main> 
     </div>
   )
 }
