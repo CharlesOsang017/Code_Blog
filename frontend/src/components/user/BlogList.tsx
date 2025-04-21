@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
+import Loading from "../Loading";
 
 // Define the Blog type
 interface Blog {
@@ -32,7 +33,7 @@ const BlogList = () => {
       : blogs.filter((blog) => blog.category === selectedCategory);
 
   if (isPending) {
-    return <div className='p-6 text-center'>Loading blogs...</div>;
+    return <div className='flex items-center justify-center mt-10 gap-x-2'><Loading />Loading blogs</div>;
   }
 
   return (
